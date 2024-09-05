@@ -4,5 +4,5 @@
 /**
  * 
  */
-module MyFirst {
+module Java_Lessons {
 }

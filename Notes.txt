@@ -1,0 +1,381 @@
+JDK = JVM + JRE
+
+regex in string
+
+ - . - Any character
+ - [abc] - first alphabet should be a, b or c
+ - [abc][vz] - same as above but second alphabet should be v or z
+ - [^abc] - except a,b or c.
+ - [a-z1-7] - a to z or 1 to 7
+ - A | B - A or B
+ - ZX - exactly ZX.
+ - \d - digits
+ - \D - not digits
+ - \s - space
+ - \S - not space
+ - \w - alphabets or digits
+ - \W - neither alphabets nor digits
+ 
+ above all for single character.
+ now for multiple characters:
+ 
+ - * -  0 or more time.
+ - + - one or more
+ - ? - 0 or 1
+ - {X} - x times(length)
+ - {X, Y} - b/w x and y.
+
+
+Variable args:
+syntax: return-type method-name(datatype... var_name) can pass n parameters or array.
+access same way we access the the array. It should be the last argument. Cant have multiple Variable args in same function.
+
+OOPs:
+* abstract
+* Encapsulation
+* Inheritance
+* polymorphism
+
+Generalization(Interface) - Bottom up approach like when u want to refer similiar classes as one super class ex: car, bike and boat can refer as vehicle
+Specialization(Inheritance) - top down approach explain iphone updates.
+
+Final:
+-- Variables: to initialise their are 3 types
+ first, during declaration.
+ second, in static blocks if variable also static
+ third, using constructors.
+
+Final methods can't be overrided.
+Final Classes can't be extended. 
+
+A singleton class in object-oriented programming is a class that is designed to have only one instance throughout the application's lifecycle. 
+This is useful when exactly one object is needed to coordinate actions across the system. 
+
+ Key Characteristics of Singleton Class:
+
+1. Single Instance: Only one instance of the class is created.
+2. Global Access: The single instance is accessible globally.
+
+ Steps to Implement a Singleton Class:
+
+1. Private Constructor: Ensures no other class can instantiate it.
+2. Private Static Instance: Holds the single instance of the class.
+3. Public Static Method: Provides a global point of access to the instance.
+
+ Example Code in Java:
+
+```java
+public class Singleton {
+    // Private static instance of the Singleton class
+    private static Singleton instance;
+    
+    // Private constructor to prevent instantiation
+    private Singleton() {
+        // initialization code
+    }
+    
+    // Public static method to provide access to the instance
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+    
+    // Example method
+    public void showMessage() {
+        System.out.println("Hello World from Singleton!");
+    }
+    
+    // Prevents cloning of the object
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
+    }
+}
+
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        // Get the single instance of Singleton
+        Singleton singleInstance = Singleton.getInstance();
+        
+        // Call a method on the Singleton instance
+        singleInstance.showMessage();
+    }
+}
+```
+
+ Thread-Safe Singleton:
+In a multithreaded environment, ensuring thread safety is crucial. One way to achieve this is using synchronized methods.
+
+```java
+public class ThreadSafeSingleton {
+    private static ThreadSafeSingleton instance;
+
+    private ThreadSafeSingleton() {
+        // initialization code
+    }
+
+    public static synchronized ThreadSafeSingleton getInstance() {
+        if (instance == null) {
+            instance = new ThreadSafeSingleton();
+        }
+        return instance;
+    }
+
+    public void showMessage() {
+        System.out.println("Hello World from ThreadSafeSingleton!");
+    }
+}
+```
+
+ Eager Initialization:
+Another approach is to instantiate the singleton at the time of class loading, which simplifies the implementation but might cause resource wastage if the 
+instance is not used.
+
+```java
+public class EagerSingleton {
+    private static final EagerSingleton instance = new EagerSingleton();
+
+    private EagerSingleton() {
+        // initialization code
+    }
+
+    public static EagerSingleton getInstance() {
+        return instance;
+    }
+
+    public void showMessage() {
+        System.out.println("Hello World from EagerSingleton!");
+    }
+}
+```
+
+ Bill Pugh Singleton Design:
+This implementation takes advantage of the Java memory model's guarantees about class initialization.
+
+```java
+public class BillPughSingleton {
+
+    private BillPughSingleton() {
+        // initialization code
+    }
+
+    private static class SingletonHelper {
+        private static final BillPughSingleton INSTANCE = new BillPughSingleton();
+    }
+
+    public static BillPughSingleton getInstance() {
+        return SingletonHelper.INSTANCE;
+    }
+
+    public void showMessage() {
+        System.out.println("Hello World from BillPughSingleton!");
+    }
+}
+```
+
+ Enum Singleton:
+Using an enum is a simple way to implement a singleton that is also thread-safe and serialization-safe.
+
+```java
+public enum EnumSingleton {
+    INSTANCE;
+
+    public void showMessage() {
+        System.out.println("Hello World from EnumSingleton!");
+    }
+}
+
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        EnumSingleton.INSTANCE.showMessage();
+    }
+}
+```
+
+ Notes:
+- Serialization Issues: Regular singleton implementations can break during serialization. Using enums or handling `readResolve` methods can solve this.
+- Reflection: Reflection can be used to break the singleton pattern. This can be mitigated by handling such cases explicitly in the constructor.
+- Lazy Initialization: It defers the creation of the instance until it is needed. This can improve performance if the instance is not used immediately.
+
+Each of these approaches has its pros and cons, and the best choice depends on the specific requirements of your application.
+
+
+ Java Packages Quick Revision
+
+ 1. What is a Package?
+- Definition: A namespace that groups related classes and interfaces.
+- Purpose: Organizes code, manages namespaces, and prevents name conflicts.
+
+ 2. Types of Packages
+- Built-in Packages: Standard Java libraries (e.g., `java.lang`, `java.util`, `java.io`).
+- User-defined Packages: Custom packages created by developers (e.g., `com.mycompany.project`).
+
+ 3. Creating a Package
+- Syntax: Use the `package` keyword at the top of a Java file.
+  ```java
+  package com.example.myapp;
+  
+  public class MyClass {
+      // Class code
+  }
+  ```
+
+ 4. Using Packages
+- Import Statement: Bring in classes from other packages.
+  ```java
+  import java.util.Scanner;
+  
+  public class Test {
+      public static void main(String[] args) {
+          Scanner scanner = new Scanner(System.in);
+      }
+  }
+  ```
+- Fully Qualified Name: Use the complete package path without importing.
+  ```java
+  public class Test {
+      public static void main(String[] args) {
+          java.util.Scanner scanner = new java.util.Scanner(System.in);
+      }
+  }
+  ```
+
+ 5. Package Hierarchy
+- Structure: Organized hierarchically using dots.
+  - Example: `com.company.project` (`com` → `company` → `project`).
+
+ 6. Access Control with Packages
+- Modifiers:
+  - `public`: Accessible from any other class.
+  - `protected`: Accessible within the same package and subclasses.
+  - Default (no modifier): Accessible only within the same package.
+  - `private`: Accessible only within the declaring class.
+
+ 7. Naming Conventions
+- Lowercase: Use all lowercase letters to avoid conflicts.
+- Reverse Domain: Typically use reverse domain names (e.g., `com.companyname.project`).
+
+ 8. Special Packages
+- `java.lang`: Automatically imported (e.g., `String`, `System`, `Math`).
+
+ 9. Subpackages
+- Independence: Subpackages are separate from parent packages.
+  - Example: Importing `java.util` does not import `java.util.concurrent`.
+
+ 10. Package Scope
+- Package-Private: Classes without an access modifier are accessible only within the same package.
+
+ 11. Static Import
+- Usage: Import static members to use them without class qualification.
+  ```java
+  import static java.lang.Math.*;
+  
+  public class Test {
+      public static void main(String[] args) {
+          double result = sqrt(25); // Instead of Math.sqrt(25)
+      }
+  }
+  ```
+
+ 12. Package Sealing
+- Definition: Ensures all classes in a package are from the same JAR file.
+- Purpose: Enhances security and integrity by preventing external additions.
+
+---
+
+ Key Points to Remember:
+- Organization: Packages help in organizing code logically and managing namespaces.
+- Access Control: Understand how access modifiers affect visibility across packages.
+- Importing: Know when to use `import` vs. fully qualified names.
+- Conventions: Follow naming conventions to maintain clarity and avoid conflicts.
+- Special Features: Remember that `java.lang` is always available and understand the concept of static imports.
+
+------------------------------ Java Exceptions --------------------------------------------------------------------
+
+ 1. What is an Exception?
+   - An exception in Java is an event that disrupts the normal flow of a program’s execution.
+   - It is an object that is thrown at runtime when an abnormal situation arises.
+
+ 2. Types of Exceptions:
+   - Checked Exceptions: 
+     - These are exceptions that are checked at compile time.
+     - The programmer must handle these exceptions using try-catch blocks or by declaring them in the method signature using the `throws` keyword.
+     - Example: `IOException`, `SQLException`.
+   - Unchecked Exceptions (Runtime Exceptions):
+     - These exceptions occur at runtime and are not checked at compile time.
+     - They are usually the result of programming errors, such as logic errors or improper use of an API.
+     - Example: `NullPointerException`, `ArrayIndexOutOfBoundsException`.
+   - Errors:
+     - Errors are serious problems that a reasonable application should not try to catch.
+     - Example: `OutOfMemoryError`, `StackOverflowError`.
+
+ 3. Exception Hierarchy:
+   - All exceptions are derived from the `Throwable` class.
+     - Throwable
+       - Exception
+         - Checked Exceptions
+         - RuntimeException (Unchecked)
+       - Error
+
+ 4. Handling Exceptions:
+   - Try-Catch Block:
+     - Used to handle exceptions that occur during the execution of a block of code.
+     - Syntax:
+       ```java
+       try {
+           // code that may throw an exception
+       } catch (ExceptionType1 e1) {
+           // handle exception of type ExceptionType1
+       } catch (ExceptionType2 e2) {
+           // handle exception of type ExceptionType2
+       } finally {
+           // code that will always execute, regardless of exception occurrence
+       }
+       ```
+   - Finally Block:
+     - Used to execute important code such as closing resources, irrespective of whether an exception occurs or not.
+   - Throw Keyword:
+     - Used to explicitly throw an exception.
+     - Example: `throw new ArithmeticException("Division by zero is not allowed");`
+   - Throws Keyword:
+     - Used in a method signature to declare that the method may throw one or more exceptions.
+     - Syntax:
+       ```java
+       public void myMethod() throws IOException, SQLException {
+           // method code
+       }
+       ```
+
+ 5. Common Java Exceptions:
+   - NullPointerException: Occurs when trying to use an object reference that has not been initialized (is null).
+   - ArrayIndexOutOfBoundsException: Occurs when trying to access an array element with an index that is out of bounds.
+   - ClassNotFoundException: Thrown when trying to load a class at runtime using `Class.forName()` method and the class cannot be found.
+   - ArithmeticException: Thrown when an illegal arithmetic operation occurs, such as division by zero.
+   - IOException: Thrown when an I/O operation fails or is interrupted.
+
+ 6. Custom Exceptions:
+   - Java allows you to create your own exceptions by extending the `Exception` class (for checked exceptions) or `RuntimeException` class (for unchecked exceptions).
+   - Example:
+     ```java
+     class MyCustomException extends Exception {
+         public MyCustomException(String message) {
+             super(message);
+         }
+     }
+     ```
+
+ 7. Best Practices:
+   - Always clean up resources like files or database connections in a `finally` block or use try-with-resources (Java 7+).
+   - Catch specific exceptions instead of a generic `Exception` to provide more accurate error handling.
+   - Avoid catching `Throwable` or `Error`, as they represent serious problems that typically should not be caught.
+   - Create custom exceptions when the built-in exceptions do not adequately describe the error conditions in your application.
+
+ 8. Exception Propagation:
+   - Exceptions are propagated up the call stack until they are caught or until they reach the main method.
+   - If an exception is not caught anywhere, it is passed to the JVM, which typically terminates the program and prints the stack trace.
+
+These notes should give you a solid foundation for understanding exceptions in Java and how to work with them effectively.
