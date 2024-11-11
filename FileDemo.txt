@@ -1,0 +1,2 @@
+This is a sample code to demonstrate the file output stream
+Learned during the udemy class

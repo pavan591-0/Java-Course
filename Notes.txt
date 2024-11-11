@@ -1,3 +1,8 @@
+git add .
+git commit -m "msg"
+git push origin main
+
+
 JDK = JVM + JRE
 
 regex in string
@@ -378,4 +383,167 @@ Each of these approaches has its pros and cons, and the best choice depends on t
    - Exceptions are propagated up the call stack until they are caught or until they reach the main method.
    - If an exception is not caught anywhere, it is passed to the JVM, which typically terminates the program and prints the stack trace.
 
-These notes should give you a solid foundation for understanding exceptions in Java and how to work with them effectively.
+
+                   Threads
+
+Thread states are an important concept in Java and multithreading in general. Here's a breakdown of the different states a thread can be in, along with details on each for interview preparation:
+
+ 1. New (Born)
+   - State: A thread is in this state when it is created but not yet started.
+   - Example: When you create a new instance of `Thread`, e.g., `Thread t = new Thread()`, it is in the "New" state.
+   - Action: To move it to the next state, you call the `start()` method.
+
+ 2. Runnable (Ready/Running)
+   - State: The thread is ready to run or is running.
+   - Key Point: A thread in this state is either waiting for CPU time (Ready) or executing its task (Running).
+   - Example: After calling the `start()` method, the thread moves into the runnable state.
+   - Scheduling: The thread scheduler decides which runnable thread to execute based on thread priority and system state.
+
+ 3. Blocked
+   - State: A thread is in the Blocked state when it wants to enter a synchronized block or method but another thread is holding the monitor lock.
+   - Reason: It is waiting to acquire a lock (for example, if two threads are trying to access a synchronized block).
+   - Transition: Once the lock is released, the thread moves back to the runnable state.
+
+ 4. Waiting
+   - State: The thread is waiting indefinitely for another thread to perform a specific action.
+   - Reason: It could be due to methods like `Object.wait()`, `Thread.join()`, or `LockSupport.park()`.
+   - Key Point: The thread remains in the waiting state until another thread signals (e.g., `notify()`, `notifyAll()`) or finishes (in the case of `join()`).
+   - Difference from Blocked: The thread isn’t waiting for a lock but waiting for another thread’s action.
+
+ 5. Timed Waiting
+   - State: The thread is waiting, but for a specific period of time.
+   - Example: This happens when you use methods like `sleep(long ms)`, `join(long ms)`, `wait(long ms)`, or `LockSupport.parkNanos()`.
+   - Key Point: After the time period expires, the thread either becomes runnable or moves to a different state (e.g., when waiting for a lock).
+
+ 6. Terminated (Dead)
+   - State: The thread has finished execution either by completing its task or by being terminated due to an exception.
+   - Example: Once the `run()` method completes, the thread reaches the terminated state.
+   - Key Point: After reaching this state, the thread cannot be restarted or moved back to another state.
+
+ Additional Concepts
+- Daemon Threads: These are background threads that are automatically killed when no other non-daemon threads are running. You can set a thread to be a daemon using `thread.setDaemon(true)` before it starts.
+- Thread Lifecycle: Threads move between these states depending on actions like starting, synchronizing, waiting, and completing execution.
+
+ Example Code for Thread States
+```java
+public class ThreadExample implements Runnable {
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + " is running");
+        try {
+            Thread.sleep(1000); // Timed Waiting
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + " is finished");
+    }
+
+    public static void main(String[] args) {
+        Thread thread = new Thread(new ThreadExample());
+        System.out.println(thread.getState()); // NEW
+        thread.start();
+        System.out.println(thread.getState()); // RUNNABLE
+        try {
+            thread.join(); // WAITING or TIMED WAITING
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(thread.getState()); // TERMINATED
+    }
+}
+```
+
+ Common Interview Questions
+1. What are the different thread states in Java?
+2. What is the difference between Blocked, Waiting, and Timed Waiting states?
+3. What is a daemon thread, and how is it different from a regular thread?
+4. How do you check the current state of a thread in Java?
+5. Can a thread be restarted after it reaches the Terminated state?
+6. What causes a thread to move from Blocked to Runnable state?
+
+
+ Synchronization in Java: Interview Prep Notes
+
+1. What is Synchronization?
+- Synchronization in Java is a mechanism to control access to shared resources by multiple threads. It ensures that only one thread can access the resource at any given time, 
+preventing race conditions and ensuring thread safety.
+
+2. Why Synchronization?
+- When multiple threads access shared resources (like objects or variables) simultaneously without proper management, it can lead to inconsistent or incorrect results.
+- Synchronization helps to coordinate threads, ensuring that shared data is accessed in a predictable and safe manner.
+
+3. Types of Synchronization in Java
+   - Process Synchronization: Manages processes running in parallel.
+   - Thread Synchronization: Focuses on ensuring that multiple threads do not simultaneously access shared resources.
+
+4. Thread Synchronization Techniques
+   - Synchronized Methods
+   - Synchronized Blocks
+   - Static Synchronization
+
+5. Synchronized Methods
+   - When a method is declared with the `synchronized` keyword, only one thread can execute it at a time on the object instance.
+   - Syntax:
+     ```java
+     public synchronized void method() {
+         // critical section
+     }
+     ```
+   - It locks the entire object for that method, so no other synchronized methods can run at the same time on that object by different threads.
+
+6. Synchronized Blocks
+   - To improve efficiency and limit the scope of synchronization, synchronized blocks are used.
+   - It allows locking only a specific section of the code instead of the entire method.
+   - Syntax:
+     ```java
+     public void method() {
+         synchronized(object) {
+             // critical section
+         }
+     }
+     ```
+   - You can lock an object (e.g., `this`, or any specific object) as the parameter for synchronization.
+
+7. Static Synchronization
+   - If you want to synchronize static methods, you can declare them as `synchronized`. This ensures that only one thread can access any synchronized static method for that class at a time.
+   - Static synchronization locks the *class* object instead of the object instance.
+
+8. Locks and Monitors
+   - In Java, every object has an implicit monitor associated with it. When a thread enters a synchronized method or block, it acquires the object's monitor lock.
+   - Other threads attempting to access the same object must wait until the lock is released.
+
+9. Reentrant Synchronization
+   - Java’s synchronization is reentrant, meaning a thread can acquire the same lock multiple times. For example, if a synchronized method calls another synchronized method on the
+   same object, the thread does not block.
+
+10. Inter-thread Communication
+   - The `wait()`, `notify()`, and `notifyAll()` methods are used to coordinate communication between threads in a synchronized context.
+     - `wait()` causes the thread to wait until another thread calls `notify()`.
+     - `notify()` wakes up a waiting thread.
+     - `notifyAll()` wakes up all waiting threads.
+
+11. Deadlock
+   - Deadlock occurs when two or more threads are blocked forever, each waiting for the other to release the lock.
+   - Prevention:
+     - Avoid nested synchronized blocks.
+     - Use timeout when waiting for locks.
+
+12. Locks from `java.util.concurrent.locks` Package
+   - ReentrantLock: A lock with the same reentrant behavior as implicit synchronization.
+   - ReadWriteLock: Allows multiple threads to read the resource but only one thread can write at a time.
+   - Lock Interface Methods:
+     - `lock()`: Acquires the lock.
+     - `unlock()`: Releases the lock.
+     - `tryLock()`: Attempts to acquire the lock without waiting.
+
+13. Important Notes
+   - Synchronized methods/block performance: Excessive use of synchronization can lead to performance degradation (thread contention). Fine-grained synchronization (using synchronized blocks)
+   is preferred.
+   - Volatile Keyword: It ensures visibility of changes to variables across threads but does not provide atomicity, so use it in combination with synchronization where necessary.
+
+14. Common Interview Questions
+   - How does synchronization in Java work?
+   - What's the difference between synchronized methods and synchronized blocks?
+   - What are the limitations of synchronization?
+   - What is a deadlock? How can you avoid it?
+   - Explain `ReentrantLock` and how it differs from synchronized methods/blocks.
+   - How do `wait()`, `notify()`, and `notifyAll()` work in synchronization?
