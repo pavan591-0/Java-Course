@@ -1,0 +1,2 @@
+Now the Reader and writer class uses char array instead of byte
+That's the only difference.
