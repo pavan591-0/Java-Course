@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--	<bean id="alien1" class="com.udemy.telusko.Spring1.Alien" scope="prototype"></bean> -->
+	<!--<bean id="alien2" class="com.udemy.telusko.Spring1.Alien"></bean> -->
+	
+	<bean id="alien1" class="com.udemy.telusko.Spring1.Alien">
+	
+	<!--Doessn't work should write in order but if we add @ConstructorProperties 
+	to the constructor and specify names then we order doesn't matter.
+	<constructor-arg name="lap" ref="laptop"/>
+	<constructor-arg name="x" value="20"/>-->
+	
+	
+	<constructor-arg index="1" ref="laptop"></constructor-arg>
+	<constructor-arg index="0" value="20"></constructor-arg>
+	
+	<!--<property name="x" value="10"></property>
+	<property name="lap" ref="laptop"></property>-->
+<!--	<property name="y" value="15"></property> doesnt work-->
+	</bean> 
+	<bean id="laptop" class="com.udemy.telusko.Spring1.Laptop"></bean>
+ 
+ 
+</beans>
