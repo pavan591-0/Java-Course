@@ -1,0 +1,29 @@
+# Ignore build and IDE files
+target/
+bin/
+out/
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+# Ignore IDE folders
+.idea/
+.project
+.classpath
+.settings/
+.metadata/
+.vscode/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+
+# Ignore personal or extra folders
+udemy_java/Spring/Utsav/
