@@ -8,11 +8,11 @@ public class StreamPractice {
 
 	public static void main(String[] args) {
 		List<Integer> data = Arrays.asList(5, 12, 7, 3, 18, 9, 21, 14);
-		
+		int n = 10;
 		printEvenNumbers(data);
 		
-		System.out.println("\nNumbers greater than 10: ");
-		printNumbersGreaterThan(data, 10);
+		System.out.println("\nNumbers greater than "+ n +": ");
+		printNumbersGreaterThan(data, n);
 		
 		System.out.println("\nSum of all numbers: "+totalSum(data));
 		
