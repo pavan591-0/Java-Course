@@ -3,10 +3,13 @@ package com.example.demo.dto;
 
 import com.example.demo.model.Student;
 
+import java.util.List;
+
 public class StudentResponseDTO {
 
     private Student student;
     private String message;
+    private List<Student> students;
 
     public StudentResponseDTO(String message, Student student) {
         this.message = message;
@@ -36,4 +39,5 @@ public class StudentResponseDTO {
                 ", message='" + message + '\'' +
                 '}';
     }
+
 }

@@ -1,4 +1,4 @@
-package problemSolving;
+package problemSolving.subarray;
 
 public class MaxSumSubArray {
 

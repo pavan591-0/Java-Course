@@ -1,4 +1,4 @@
-package problemSolving;
+package problemSolving.basic;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

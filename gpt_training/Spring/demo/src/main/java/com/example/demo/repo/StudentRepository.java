@@ -1,8 +1,10 @@
 package com.example.demo.repo;
 
 import com.example.demo.dto.StudentRequestDTO;
+import com.example.demo.dto.StudentResponseDTO;
 import com.example.demo.exception.InvalidDataException;
 import com.example.demo.exception.StudentNotFoundException;
+import com.example.demo.mapper.StudentMapper;
 import com.example.demo.model.Student;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +18,12 @@ public class StudentRepository {
             List.of(
                     new Student(1, "Mikasa", 95),
                     new Student(2, "Eren", 86),
-                    new Student(3, "Naruto", 40)
+                    new Student(3, "Armin", 95),
+                    new Student(4, "Levi", 99),
+                    new Student(5, "Naruto", 40),
+                    new Student(6, "Sasuke", 85),
+                    new Student(7, "Sakura", 70),
+                    new Student(8, "Itachi", 99)
             )
     );
     public List<Student> getStudentsList(){
@@ -65,5 +72,12 @@ public class StudentRepository {
             }
         }
         return null;
+    }
+
+    public StudentResponseDTO updateMarks(int id, int marks) {
+        Student stud = findStudentById(id);
+        if(stud == null) throw new StudentNotFoundException("No such id exists in the db.");
+        stud.setMarks(marks);
+        return StudentMapper.mapToResponse(stud, "Successfully Updated");
     }
 }

@@ -1,4 +1,4 @@
-package problemSolving;
+package problemSolving.basic;
 
 public class MoveZeros {
     public static void main(String[] args){

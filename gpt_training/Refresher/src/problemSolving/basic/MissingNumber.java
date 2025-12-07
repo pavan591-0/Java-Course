@@ -1,7 +1,6 @@
-package problemSolving;
+package problemSolving.basic;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class MissingNumber {
 

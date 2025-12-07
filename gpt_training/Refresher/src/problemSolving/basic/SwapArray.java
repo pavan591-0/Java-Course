@@ -1,4 +1,4 @@
-package problemSolving;
+package problemSolving.basic;
 
 public class SwapArray {
 
